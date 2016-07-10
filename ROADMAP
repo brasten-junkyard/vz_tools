@@ -1,0 +1,61 @@
+Features for 0.1:
+
+  --> Upon completion of v0.1, VZTools should provide most necessary
+      information and most critical actions via the lower-level
+      interface.
+
+  Adapters
+    - veinfo [DONE - 11/12]
+    - vestat [DONE - 11/13]
+    - vzcalc [DONE - 11/14]
+    - vzcpucheck [DONE - 11/14]
+    - vzlist [DONE - 11/13]
+    - vzmemcheck
+    - vzctl
+      - start
+      - stop
+      - create
+      - destroy
+      - network settings
+      - qos settings
+
+Features for 0.2:
+  
+  Adapters
+    - vzctl
+      - exec
+      - top (via exec)
+
+  API
+    - Node
+      - listing VEs
+      - Node-wide stats
+    - VE
+      - stats
+      - creating and destroying
+      - starting and stopping
+      - network setting and status
+      - qos settings and status
+ 
+  Tools
+    - ovzstat
+        --> a basic vzstat replacement, primary as a proof of concept.
+
+
+Features for 0.3:
+
+  Adapters
+    - vzpkgadd
+    - vzpkgcache
+    - vzpkgls
+    - vzpkgrm
+
+  API
+    - VE
+      - exec
+      - top
+
+  Tools
+    - ovzadm
+        --> an interactive shell of sorts, like web console
+            for command-line.

@@ -1,0 +1,8 @@
+Resource     Current(%)  Promised(%)  Max(%)
+Low Mem          0.75       4.99       4.99
+Total RAM        6.01        n/a        n/a
+Mem + Swap       2.00       2.01        n/a
+Alloc. Mem       3.80       2.51   16287.52
+Num. Proc        0.10        n/a       0.73
+--------------------------------------------
+Memory           6.01       4.99   16287.52

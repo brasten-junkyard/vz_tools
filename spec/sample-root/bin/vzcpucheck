@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# Mimic actual results from VZCpuCheck
+#
+
+echo "veid		units"
+echo "-----------------------"
+echo "0		20833"
+echo "1		1000"
+echo "107		2000"
+echo "205		2000"
+echo "999		1000"
+echo "120		1000"
+echo "754		4000"
+echo "410		1000"
+echo "401		1000"
+echo "411		1000"
+echo "Current CPU utilization: 34833"
+echo "Power of the node: 402887"

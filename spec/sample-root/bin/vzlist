@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# VZList results
+#
+
+echo "         1         54 running   66.228.211.45   localhost                       "
+echo "       107         31 running   66.228.211.204  node1.nagilumve.com             "
+echo "       120         25 running   66.228.211.78   node2.nagilumve.com             "
+echo "       205         32 running   66.228.211.8    node3.nagilumve.com             "
+echo "       401        127 running   66.228.211.22   node4.nagilumve.com             "
+echo "       410        219 running   66.228.211.161  node5.nagilumve.com             "
+echo "       411         35 running   66.228.211.162  node6.nagilumve.com             "
+echo "       754        133 running   66.228.211.21   node7.nagilumve.com             "
+echo "       999          9 running   66.228.211.164  node8.nagilumve.com             "

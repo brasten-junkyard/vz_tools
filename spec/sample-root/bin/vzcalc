@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+# Mimic actual VZCalc results
+#
+
+echo "Resource     Current(%)  Promised(%)  Max(%)"
+echo "Low Mem          0.75       4.99       4.99"
+echo "Total RAM        6.01        n/a        n/a"
+echo "Mem + Swap       2.00       2.01        n/a"
+echo "Alloc. Mem       3.80       2.51   16287.52"
+echo "Num. Proc        0.10        n/a       0.73"
+echo "--------------------------------------------"
+echo "Memory           6.01       4.99   16287.52"

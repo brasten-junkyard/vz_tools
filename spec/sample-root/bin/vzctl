@@ -1,0 +1,161 @@
+#!/usr/bin/env ruby
+
+# Fake VZCTL for use in testing.
+
+action  = ARGV.shift
+ve      = ARGV.shift
+
+case action
+when 'exec'
+
+    exec_command = ARGV.shift
+
+    case exec_command
+    when 'ifconfig'
+        @result =<<-EOV
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)
+
+venet0    Link encap:UNSPEC  HWaddr 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00  
+          inet addr:127.0.0.1  P-t-P:127.0.0.1  Bcast:0.0.0.0  Mask:255.255.255.255
+          UP BROADCAST POINTOPOINT RUNNING NOARP  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)
+
+venet0:0  Link encap:UNSPEC  HWaddr 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00  
+          inet addr:172.16.191.132  P-t-P:172.16.191.132  Bcast:172.16.191.132  Mask:255.255.255.255
+          UP BROADCAST POINTOPOINT RUNNING NOARP  MTU:1500  Metric:1
+
+EOV
+
+    when 'cat'
+      case ARGV.shift
+      when '/proc/net/dev'
+          @result =<<-EOV
+Inter-|   Receive                                                |  Transmit
+ face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
+    lo:       0       0    0    0    0     0          0         0        0       0    0    0    0     0       0          0
+venet0:22782156   29289    0    0    0     0          0         0 17854292   21705    0    0    0     0       0          0
+EOV
+      end
+    
+    when 'top'
+      case ve
+      when '401'
+        @result =<<-EOV
+top - 22:42:40 up 16 days,  9:00,  0 users,  load average: 0.00, 0.00, 0.00
+Tasks:  32 total,   1 running,  31 sleeping,   0 stopped,   0 zombie
+Cpu(s):  0.0% us,  0.0% sy,  0.0% ni, 100.0% id,  0.0% wa,  0.0% hi,  0.0% si
+Mem:   8172852k total,  7965116k used,   207736k free,   445316k buffers
+Swap: 16386292k total,     2620k used, 16383672k free,  5998524k cached
+
+  PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND            
+    1 root      16   0  1616  604  524 S  0.0  0.0   0:02.75 init               
+12043 root      16   0  1520  544  460 S  0.0  0.0   0:05.14 syslogd            
+12055 root      17   0  2140 1096  936 S  0.0  0.0   0:00.00 mysqld_safe        
+12079 mysql     16   0 32368  11m 1696 S  0.0  0.1   0:00.05 mysqld             
+12080 mysql     16   0 32368  11m 1696 S  0.0  0.1   0:01.74 mysqld             
+12081 mysql     20   0 32368  11m 1696 S  0.0  0.1   0:00.00 mysqld             
+12082 mysql     15   0 32368  11m 1696 S  0.0  0.1   0:00.00 mysqld             
+12083 mysql     15   0 32368  11m 1696 S  0.0  0.1   0:00.00 mysqld             
+12084 mysql     20   0 32368  11m 1696 S  0.0  0.1   0:00.00 mysqld             
+12088 mysql     15   0 32368  11m 1696 S  0.0  0.1   0:05.73 mysqld             
+12089 mysql     16   0 32368  11m 1696 S  0.0  0.1   0:05.17 mysqld             
+12090 mysql     16   0 32368  11m 1696 S  0.0  0.1   0:00.00 mysqld             
+12091 mysql     20   0 32368  11m 1696 S  0.0  0.1   0:00.00 mysqld             
+12101 root      18   0  4004 1024  732 S  0.0  0.0   0:00.00 sshd               
+12111 root      16   0  2068  820  684 S  0.0  0.0   0:01.75 xinetd             
+12120 root      16   0 17364 9072 3576 S  0.0  0.1   0:05.10 httpd              
+12127 ftpuser   16   0  4112 1124  524 S  0.0  0.0   0:00.40 proftpd            
+12132 apache    16   0 16352 6640 1804 S  0.0  0.1   0:00.15 httpd              
+12137 root      16   0  2452  916  524 S  0.0  0.0   0:01.38 crond              
+12146 root      18   0  4048  808  572 S  0.0  0.0   0:00.00 saslauthd          
+12147 apache    16   0 17500 8332 2712 S  0.0  0.1   0:00.00 httpd              
+12148 apache    15   0 17500 8308 2692 S  0.0  0.1   0:00.00 httpd              
+12149 apache    16   0 17500 8308 2688 S  0.0  0.1   0:00.00 httpd              
+12150 apache    16   0 17500 8300 2680 S  0.0  0.1   0:00.00 httpd              
+12151 apache    16   0 17500 8300 2680 S  0.0  0.1   0:00.00 httpd              
+12161 root      16   0  9612 5524 1500 S  0.0  0.1   0:01.70 miniserv.pl        
+32671 apache    17   0 28296  25m 2140 S  0.0  0.3   0:01.44 dispatch.fcgi      
+32672 apache    15   0 17500 8300 2680 S  0.0  0.1   0:00.00 httpd              
+11481 apache    16   0 17500 8300 2680 S  0.0  0.1   0:00.00 httpd              
+11485 apache    16   0 17500 8300 2680 S  0.0  0.1   0:00.00 httpd              
+11486 apache    15   0 17500 8300 2680 S  0.0  0.1   0:00.00 httpd              
+26494 root      15   0  1876  848  684 R  0.0  0.0   0:00.00 top                
+
+EOV
+      else
+        @result =<<-EOV
+ 07:00:22  up 96 days, 22:08,  0 users,  load average: 0.25, 0.10, 0.03
+79 processes: 78 sleeping, 1 running, 0 zombie, 0 stopped
+CPU states:   2.8% user   3.7% system   2.0% nice   2.1% iowait  89.1% idle
+Mem:  1000964k av,  970468k used,   30496k free,       0k shrd,   92344k buff
+       680208k active,             147180k inactive
+Swap: 4096564k av,  172460k used, 3924104k free                  463276k cached
+
+  PID USER     PRI  NI  SIZE  RSS SHARE STAT %CPU %MEM   TIME CPU COMMAND
+    1 root      16   0  1308  452  1276 S     0.0  0.0   0:00   0 init
+15836 root      16   0  1372  540  1320 S     0.0  0.0   0:00   0 syslogd
+15861 nobody    16   0  4252 1816  3712 S     0.0  0.1   0:00   0 proftpd
+15871 root      16   0  3452 1264  3348 S     0.0  0.1   0:00   0 sshd
+15881 root      19   0  1972  688  1684 S     0.0  0.0   0:00   0 xinetd
+15901 root      15   0 10076 2752  2728 S     0.0  0.2   0:00   0 chkservd
+17543 mailnull  16   0  6660 1828  6064 S     0.0  0.1   0:00   0 exim
+17551 mailnull  16   0  6696 1860  6064 S     0.0  0.1   0:00   0 exim
+17558 root      16   0  7248 4028  2548 S     0.0  0.4   0:00   0 lfd
+17563 mailnull  16   0  6660 1840  6064 S     0.0  0.1   0:00   0 exim
+17610 root      16   0  1364  572  1316 S     0.0  0.0   0:00   0 crond
+17622 root      18   0  2044 1044  1936 S     0.0  0.1   0:00   0 mysqld_safe
+17643 mysql     16   0 63436  20M  7008 S     0.0  2.0   0:00   0 mysqld
+17753 mailnull  16   0  7956 5624  3984 S     0.0  0.5   0:00   0 eximstats
+17792 root      16   0  7220 5520  2744 S     0.0  0.5   0:00   0 cpbandwd
+17793 root      34  19 18040  13M  4344 S N   0.0  1.3   0:00   0 cpanellogd
+17807 root      16   0 26756  20M  3520 S     0.0  2.0   0:00   0 spamd
+17845 root      16   0  2936 1508  2352 S     0.0  0.1   0:00   0 antirelayd
+17870 mailman   17   0 10152 3552  6076 S     0.0  0.3   0:00   0 mailmanctl
+17871 mailman   16   0 10092 4348  6028 S     0.0  0.4   0:00   0 python2.4
+17872 mailman   16   0 15564  11M  6028 S     0.0  1.1   0:00   0 python2.4
+17873 mailman   16   0 15552  11M  6028 S     0.0  1.1   0:00   0 python2.4
+17874 mailman   16   0 15568  11M  6028 S     0.0  1.1   0:00   0 python2.4
+17875 mailman   16   0 10100 5388  6028 S     0.0  0.5   0:00   0 python2.4
+17876 mailman   16   0 15576  11M  6072 S     0.0  1.1   0:00   0 python2.4
+17877 mailman   16   0 15520  11M  6028 S     0.0  1.1   0:00   0 python2.4
+17896 mailman   16   0 10092 4148  6028 S     0.0  0.4   0:00   0 python2.4
+17903 root      20   0  1328  424  1284 S     0.0  0.0   0:00   0 portsentry
+32455 named     24   0 11628 2660  4676 S     0.0  0.2   0:00   0 named
+32714 root      17   0 16580 7976 13148 S     0.0  0.7   0:00   0 cpsrvd-ssl
+27967 root      16   0  1300  440  1264 S     0.0  0.0   0:00   0 courierlogger
+27968 root      16   0  1404  452  1376 S     0.0  0.0   0:00   0 couriertcpd
+27974 root      16   0  1300  440  1264 S     0.0  0.0   0:00   0 courierlogger
+27975 root      16   0  1404  448  1376 S     0.0  0.0   0:00   0 couriertcpd
+27980 root      16   0  1300  440  1264 S     0.0  0.0   0:00   0 courierlogger
+27981 root      16   0  1400  448  1376 S     0.0  0.0   0:00   0 couriertcpd
+27986 root      16   0  1300  440  1264 S     0.0  0.0   0:00   0 courierlogger
+27987 root      16   0  1400  448  1376 S     0.0  0.0   0:00   0 couriertcpd
+27992 root      16   0  1296  396  1264 S     0.0  0.0   0:00   0 courierlogger
+27993 root      16   0  1616  492  1408 S     0.0  0.0   0:00   0 authdaemond
+32070 root      16   0 26756  19M  3520 S     0.0  1.9   0:00   0 spamd
+15740 root      17   0 10056 7948  8060 S     0.0  0.7   0:00   0 authProg
+ 5541 root      16   0 10056 7240  8060 S     0.0  0.7   0:00   0 authProg
+17616 root      17   0 10056 8300  8060 S     0.0  0.8   0:00   0 authProg
+18169 root      16   0 10056 8300  8060 S     0.0  0.8   0:00   0 authProg
+19829 root      17   0 10056 7340  8060 S     0.0  0.7   0:00   0 authProg
+26490 root      16   0 15772 8620 13496 S     0.0  0.8   0:00   0 httpd
+ 5340 root      16   0 27100  23M  3520 S     0.0  2.4   0:00   0 spamd
+ 9576 nobody    16   0  4468 2268  3712 S     0.0  0.2   0:00   0 proftpd
+ 8893 root      17   0  1796  944  1644 R     0.0  0.0   0:00   0 top
+EOV
+      end
+    
+    end
+end
+
+puts @result
